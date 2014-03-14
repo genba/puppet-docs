@@ -94,7 +94,7 @@ execute shell commands:
 
   * if all you want to do is run the command and use the output, verbatim, as your fact's value,
   you can pass the command into `setcode` directly. For example: `setcode "uname --hardware-platform"`
-  * if your fact is any more complicated than that, you'll have to call `Facter::Util::Resolution.exec('uname --hardware-platform')`
+  * if your fact is any more complicated than that, you'll have to call `Facter::Core::Resolution.exec('uname --hardware-platform')`
   from within the `setcode do`...`end` block.
 
 ### An Example
@@ -110,12 +110,12 @@ Puppet master server:
 
     Facter.add("hardware_platform") do
       setcode do
-        Facter::Util::Resolution.exec('/bin/uname --hardware-platform')
+        Facter::Core::Resolution.exec('/bin/uname --hardware-platform')
       end
     end
 {% endhighlight %}
 
-> **Note:** Prior to Facter 1.5.8, values returned by `Facter::Util::Resolution.exec` often had trailing newlines. If your custom fact will also be used by older versions of Facter, you may need to call `chomp` on these values. (In the example above, this would look like `Facter::Util::Resolution.exec('/bin/uname --hardware-platform').chomp`.)
+> **Note:** Prior to Facter 1.5.8, values returned by `Facter::Core::Resolution.exec` often had trailing newlines. If your custom fact will also be used by older versions of Facter, you may need to call `chomp` on these values. (In the example above, this would look like `Facter::Core::Resolution.exec('/bin/uname --hardware-platform').chomp`.)
 
 You can then use the instructions in [Plugins In Modules](./plugins_in_modules.html) page to copy
 the new fact to a module and distribute it. During your next Puppet run, the value of the new fact
@@ -126,14 +126,14 @@ The best place to get ideas about how to write your own custom facts is to look 
 ## Using other facts
 
 You can write a fact which uses other facts by accessing
-`Facter.value("somefact")`.
+`Facter.value(:somefact)`. If the named fact is unresolved, `Facter.value` will return `nil`, but if the fact can't be found at all, it will throw an error. 
 
 For example:
 
 {% highlight ruby %}
-    Facter.add("osfamily") do
+    Facter.add(:osfamily) do
       setcode do
-        distid = Facter.value('lsbdistid')
+        distid = Facter.value(:lsbdistid)
         case distid
         when /RedHatEnterprise|CentOS|Fedora/
           "redhat"
@@ -161,7 +161,7 @@ An example of the confine statement would be something like the following:
     Facter.add(:powerstates) do
       confine :kernel => "Linux"
       setcode do
-        Facter::Util::Resolution.exec('cat /sys/power/states')
+        Facter::Core::Resolution.exec('cat /sys/power/states')
       end
     end
 {% endhighlight %}
