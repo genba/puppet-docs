@@ -21,7 +21,7 @@ Even though facts and resolutions are conceptually very different, the line can 
 (or third, etc.) resolution for a fact looks just like declaring a completely new fact, only with the same name as an existing fact, as
 you can see in this example: [different resolutions for different operating systems](#example-different-resolutions-for-different-operating-systems).
 
-## Facts with Simple Resolutions
+## Writing Facts with Simple Resolutions
 
 Most facts are resolved all at once, without any need to merge data from different sources. In that case, the resolution is **simple**.
 Both flat and structured facts can have simple resolutions.
@@ -90,7 +90,7 @@ Simple facts are typically made up of the following parts:
      * to execute shell commands within a `setcode` block, use the `Facter::Core::Execution.exec` function
      * if multiple `setcode` statements are evaluated for a single fact, Facter will only retain the newest value
 
-## Structured Facts
+## Writing Structured Facts
 
 Facter 2.0 introduced **structured facts**, which can take the form of hashes or arrays. You don't have to do anything special to mark the fact as structured --- if your fact returns a hash or array, Facter will recognize it as a structured fact. Structured facts can have [simple](#main_components_of_simple_resolutions) or [aggregate resolutions](#main_components_of_aggregate_resolutions).
 
@@ -125,7 +125,7 @@ Facter.add(:interfaces_hash) do
 end
 {% endhighlight %}
 
-## Facts with Aggregate Resolutions
+## Writing Facts with Aggregate Resolutions
 
 Aggregate resolutions allow you to split up the resolution of a fact into separate chunks. 
 By default, Facter will merge hashes with hashes or arrays with arrays, resulting in a 
