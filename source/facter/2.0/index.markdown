@@ -9,4 +9,3 @@ Facter is Puppet's cross-platform system profiling library. It discovers and rep
 * [The custom fact overview](./fact_overview.html) serves as an example-driven primer and reference for fact authors.
 * [The custom facts walkthrough](./custom_facts.html) explains in detail how to write and distribute your own custom or external facts.
 * [The Facter release notes](./release_notes.html) document Facter's history.
-
